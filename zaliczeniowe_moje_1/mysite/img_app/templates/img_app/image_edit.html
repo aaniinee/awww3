@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8" />
+    <title>Edit {{ image.name }}</title>
+</head>
+<body>
+<p><a href="{% url 'index' %}">Back to list</a></p>
+
+<h1>{{ image.name }}</h1>
+
+<svg width="{{ image_width }}" height="{{ image_height }}">
+    {% for rectangle in image.rectangle_set.all %}
+        <rect x="{{ rectangle.x }}" y="{{ rectangle.y }}" width="{{ rectangle.width }}" height="{{ rectangle.height }}" fill="{{ rectangle.color }}"></rect>
+    {% endfor %}
+</svg>
+
+<h2>Data</h2>
+
+<h3>Image size</h3>
+<p>{{ image_width }} x {{ image_height }}</p>
+
+<h3>Rectangles</h3>
+<table>
+    <tr>
+        <th>width</th>
+        <th>height</th>
+        <th>x</th>
+        <th>y</th>
+        <th>color</th>
+        <th></th>
+    </tr>
+    {% for rectangle in image.rectangle_set.all %}
+        <tr>
+            <td>{{ rectangle.width }}</td>
+            <td>{{ rectangle.height }}</td>
+            <td>{{ rectangle.x }}</td>
+            <td>{{ rectangle.y }}</td>
+            <td>{{ rectangle.color }}</td>
+            <td><a href="{% url 'rectangle_delete' rectangle.id %}">Delete</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+<h2>Add rectangle</h2>
+<form method="post" action="{% url 'rectangle_add' image.id %}">
+    {% csrf_token %}
+    <p>
+        <label for="id_width">Width:</label>
+        <input id="id_width" type="number" name="width" required>
+    </p>
+    <p>
+        <label for="id_height">Height:</label>
+        <input id="id_height" type="number" name="height" required>
+    </p>
+    <p>
+        <label for="id_x">X:</label>
+        <input id="id_x" type="number" name="x" required>
+    </p>
+    <p>
+        <label for="id_y">Y:</label>
+        <input id="id_y" type="number" name="y" required>
+    </p>
+    <p>
+        <label for="id_color">Color:</label>
+        <input id="id_color" type="color" name="color" required>
+    </p>
+    <p>
+        <button type="submit">Add rectangle</button>
+    </p>
+</form>
+
+</form>
+</body>
+</html>

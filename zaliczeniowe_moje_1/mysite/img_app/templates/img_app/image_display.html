@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8"/>
+    <title>Image {{ image.name }}</title>
+</head>
+<body>
+<p><a href="{% url 'index' %}">Back</a></p>
+<h1>Image {{ image.name }}</h1>
+<svg width="{{ image_width }}" height="{{ image_height }}">
+    {% for rectangle in image.rectangle_set.all %}
+        <rect x="{{ rectangle.x }}" y="{{ rectangle.y }}" width="{{ rectangle.width }}" height="{{ rectangle.height }}"
+              fill="{{ rectangle.color }}"></rect>
+    {% endfor %}
+</svg>
+{% if request.user.is_superuser or request.user in image.artists.all %}
+    <p><a href="{% url 'edit' image.id %}">Edit</a></p>
+{% endif %}
+</body>
+</html>

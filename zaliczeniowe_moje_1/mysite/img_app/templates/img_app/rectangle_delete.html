@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8"/>
+    <title>{{ image.name }}</title>
+</head>
+<body>
+<h1>Delete Rectangle</h1>
+<p>Are you sure you want to delete this rectangle?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+    <a href="{% url 'edit' image.id %}">No, go back</a>
+</form>
+</body>
+</html>
